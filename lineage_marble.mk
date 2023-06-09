@@ -39,8 +39,6 @@ $(call inherit-product, vendor/xiaomi/marble/marble-vendor.mk)
 ## Device identifier
 PRODUCT_DEVICE := marble
 PRODUCT_NAME := lineage_marble
-PRODUCT_BRAND := Xiaomi
-PRODUCT_MODEL := 23049RAD8C
 PRODUCT_MANUFACTURER := Xiaomi
 
 # GMS
