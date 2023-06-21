@@ -91,6 +91,9 @@ PRODUCT_PACKAGES += \
     SettingsOverlayGlobal \
     SettingsOverlayIndia \
     SettingsOverlayChina \
+    SettingsProviderOverlayGlobal \
+    SettingsProviderOverlayIndia \
+    SettingsProviderOverlayChina \
     SettingsResCommon \
     SettingsResMarble \
     SystemUIResCommon \
