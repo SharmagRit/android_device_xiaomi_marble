@@ -84,6 +84,10 @@ PRODUCT_PACKAGES += \
 
 # Overlays
 PRODUCT_PACKAGES += \
+    AospWifiResOverlayMarble \
+    AospWifiResOverlayMarbleChina \
+    AospWifiResOverlayMarbleGlobal \
+    AospWifiResOverlayMarbleIndia \
     ApertureResMarble \
     CarrierConfigResCommon \
     FrameworksResCommon \
