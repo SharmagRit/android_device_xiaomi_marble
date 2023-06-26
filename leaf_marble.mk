@@ -17,6 +17,7 @@ $(call inherit-product, device/xiaomi/marble/device.mk)
 # Device identifier
 PRODUCT_DEVICE := marble
 PRODUCT_NAME := leaf_marble
+PRODUCT_BRAND := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
 
 # Google apps

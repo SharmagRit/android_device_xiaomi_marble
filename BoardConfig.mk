@@ -83,20 +83,27 @@ BOARD_BOOTCONFIG := \
     androidboot.memcg=1 \
     androidboot.usbcontroller=a600000.dwc3
 
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+
+TARGET_KERNEL_SOURCE := kernel/xiaomi/marble
+TARGET_KERNEL_CONFIG := gki_defconfig
+
 BOARD_KERNEL_IMAGE_NAME := Image
 
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 
 BOARD_RAMDISK_USE_LZ4 := true
-TARGET_KERNEL_APPEND_DTB := false
 BOARD_KERNEL_SEPARATED_DTBO := true
-BOARD_INCLUDE_DTB_IN_BOOTIMG := false
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 TARGET_FORCE_PREBUILT_KERNEL := true
 
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilts/kernel
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
+
+# Filesystem
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/config/config.fs
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
@@ -118,29 +125,24 @@ BOARD_PARTITION_LIST := $(call to-upper, $(BOARD_QTI_DYNAMIC_PARTITIONS_PARTITIO
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := erofs))
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
-BOARD_PREBUILT_ODMIMAGE := $(DEVICE_PATH)/prebuilts/odm.img
-BOARD_PREBUILT_VENDORIMAGE := $(DEVICE_PATH)/prebuilts/vendor.img
-
-TARGET_COPY_OUT_ODM := odm
-TARGET_COPY_OUT_PRODUCT := product
-TARGET_COPY_OUT_SYSTEM_EXT := system_ext
-TARGET_COPY_OUT_VENDOR := vendor
-TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
-
+TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+
+BOARD_USES_ODMIMAGE := true
 BOARD_USES_VENDOR_DLKMIMAGE := true
+
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 
 # Platform
-TARGET_BOARD_PLATFORM := xiaomi_sm7475
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno725
-QCOM_BOARD_PLATFORMS += xiaomi_sm7475
+TARGET_BOARD_PLATFORM := taro
 BOARD_USES_QCOM_HARDWARE := true
 
 # Properties
+TARGET_ODM_PROP += $(DEVICE_PATH)/configs/properties/odm.prop
 TARGET_PRODUCT_PROP += $(DEVICE_PATH)/configs/properties/product.prop
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/properties/system.prop
 TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/configs/properties/system_ext.prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/properties/system.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/properties/vendor.prop
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
@@ -156,9 +158,8 @@ ENABLE_VENDOR_RIL_SERVICE := true
 # Sepolicy
 include device/qcom/sepolicy/SEPolicy.mk
 
-SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
-SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
-SELINUX_IGNORE_NEVERALLOWS := true
+# System As Root
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 
 # Vendor boot
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(wildcard $(DEVICE_PATH)/prebuilts/modules/ramdisk/*.ko)
@@ -194,7 +195,13 @@ BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 
 # VINTF
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/configs/vintf/compatibility_matrix.device.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
+    $(DEVICE_PATH)/configs/vintf/compatibility_matrix.device.xml \
+    vendor/leaf/config/device_framework_matrix.xml
+DEVICE_MANIFEST_SKUS := ukee
+DEVICE_MANIFEST_UKEE_FILES += $(DEVICE_PATH)/configs/vintf/manifest_ukee.xml
+DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml
+ODM_MANIFEST_FILES := $(DEVICE_PATH)/configs/vintf/manifest_marble.xml
 
 # VNDK
 BOARD_VNDK_VERSION := current
