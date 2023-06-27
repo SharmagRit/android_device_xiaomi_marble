@@ -4,42 +4,34 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/xiaomi/marble
-
-# Configure core_64_bit.mk
+# Inherit from products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-
-# Configure full_base_telephony.mk
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Configure launch_with_vendor_ramdisk.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
-
-# Configure emulated_storage.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
-
-# Configure updatable_apex.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
-
-# Configure developer_gsi_keys.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
-
-# Inherit common LineageOS configurations
+# Inherit some common lineage stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
-# Setup dalvik vm configs
-$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
-
-# Inherit device configurations
-$(call inherit-product, $(DEVICE_PATH)/device.mk)
-
-# Inherit from the proprietary version
-$(call inherit-product, vendor/xiaomi/marble/marble-vendor.mk)
+# Inherit from marble device.
+$(call inherit-product, device/xiaomi/marble/device.mk)
 
 ## Device identifier
+PRODUCT_BRAND := POCO
+PRODUCT_MODEL := POCO F5
 PRODUCT_DEVICE := marble
 PRODUCT_NAME := lineage_marble
 PRODUCT_MANUFACTURER := Xiaomi
 
 # GMS
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+
+# RisingOS Stuff
+TARGET_SUPPORTS_NEXT_GEN_ASSISTANT := true
+TARGET_SUPPORTS_GOOGLE_RECORDER := true
+TARGET_USE_PIXEL_FINGERPRINT := true
+TARGET_DISABLE_EPPE := true
+TARGET_ENABLE_BLUR := true
+WITH_GMS := true
+
+# Maintainer Stuff
+RISING_MAINTAINER := SharmagRit
+RISING_BUILDTYPE := UNOFFICIAL

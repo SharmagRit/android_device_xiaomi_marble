@@ -7,8 +7,6 @@
 # Inherit from the proprietary version
 -include vendor/xiaomi/marble/BoardConfigVendor.mk
 
-DEVICE_PATH := device/xiaomi/marble
-
 # A/B
 AB_OTA_UPDATER := true
 
@@ -82,6 +80,7 @@ BOARD_KERNEL_CMDLINE := \
     disable_dma32=on \
     bootinfo.fingerprint=$(LINEAGE_VERSION) \
     mtdoops.fingerprint=$(LINEAGE_VERSION)
+
 BOARD_BOOTCONFIG := \
     androidboot.hardware=qcom \
     androidboot.memcg=1 \
@@ -100,7 +99,7 @@ TARGET_KERNEL_CONFIG := marble_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-gnu-
 TARGET_KERNEL_SOURCE := kernel/xiaomi/marble
-TARGET_KERNEL_CLANG_VERSION := r416183b
+TARGET_KERNEL_CLANG_VERSION := r450784d
 
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
 
